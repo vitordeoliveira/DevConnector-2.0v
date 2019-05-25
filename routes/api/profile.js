@@ -164,4 +164,128 @@ router.delete("/", auth, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+// @route   PUT api/profile/experience
+// @desc    Add profile experience
+// @access  Private
+
+router.put(
+  "/experience",
+  [
+    auth,
+    [
+      check("title", "Title is required")
+        .not()
+        .isEmpty(),
+      check("company", "Company is required")
+        .not()
+        .isEmpty(),
+      check("from", "From is required")
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { title, company, location, from, current, description } = req.body;
+
+    const newExp = {
+      title,
+      company,
+      location,
+      from,
+      current,
+      description
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.experience.unshift(newExp);
+      await profile.save();
+      res.json(profile);
+    } catch (error) {
+      res.status(500).send("server error");
+    }
+  }
+);
+
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete experience
+// @access  Private
+
+router.delete("/experience/:exp_id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    //get the remove index
+    const removeIndex = profile.experience
+      .map(item => item.id)
+      .indexOf(req.params.exp_id);
+
+    profile.experience.splice(removeIndex, 1);
+    await profile.save();
+
+    res.json(profile);
+  } catch (error) {
+    res.status(500).send("server error");
+  }
+});
+
+// @route   update api/profile/experience/:exp_id
+// @desc    Update experience
+// @access  Private
+
+router.put(
+  "/experience/:exp_id",
+  [
+    auth,
+    [
+      check("title", "Title is required")
+        .not()
+        .isEmpty(),
+      check("company", "Company is required")
+        .not()
+        .isEmpty(),
+      check("from", "From is required")
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { title, company, location, from, current, description } = req.body;
+
+    const newExpe = {
+      title,
+      company,
+      location,
+      from,
+      current,
+      description
+    };
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      //get the update index
+      const updateIndex = profile.experience
+        .map(item => item.id)
+        .indexOf(req.params.exp_id);
+
+      profile.experience[updateIndex] = newExpe;
+      await profile.save();
+
+      res.json(profile);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("server error");
+    }
+  }
+);
+
 module.exports = router;
