@@ -19,6 +19,7 @@
     "express-validator": "^5.3.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash.update": "^4.10.2",
     "moment": "^2.24.0",
     "mongoose": "^5.5.4",
     "react-moment": "^0.9.2",
