@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addExperiece } from "../../actions/profile";
@@ -107,6 +107,8 @@ const AddExperience = ({ addExperiece, history }) => {
             cols="30"
             rows="5"
             placeholder="Job Description"
+            value={description}
+            onChange={e => onChange(e)}
           />
         </div>
         <input type="submit" class="btn btn-primary my-1" />
@@ -125,4 +127,4 @@ AddExperience.propTypes = {
 export default connect(
   null,
   { addExperiece }
-)(AddExperience);
+)(withRouter(AddExperience));
