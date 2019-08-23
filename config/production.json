@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://vitordeoliveira:vit254638@tmcluster-zfjar.mongodb.net/test?retryWrites=true ",
+  "jwtSecret": "mysecrettoken",
+  "githubClientId": "abbe9c965200485828f6",
+  "githubSecret": "b3cc0c68541a16dd578ede5fdc1b184ed9c68a55"
+}
